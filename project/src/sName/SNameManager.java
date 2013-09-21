@@ -11,62 +11,84 @@ public class SNameManager
 {
 	ArrayList<SPlayerName> m_nameList = new ArrayList<SPlayerName>();
 	SSettings m_settings;
-	
-	public SNameManager(SSettings settings)
-	{
+
+	public SNameManager(SSettings settings) {
 		m_settings = settings;
 	}
-	
+
 	/**
 	 * saves names by SSetings delivered to constructor
+	 * 
 	 * @return return true on success
 	 */
-	public boolean save()
-	{
+	public boolean save() {
 		return m_settings.save(this);
 	}
-	
+
 	/**
 	 * loads names by SSetings delivered to constructor
+	 * 
 	 * @return return true on success
 	 */
-	public boolean load()
-	{
+	public boolean load() {
 		return m_settings.load(this);
 	}
-	
-	public boolean addName(SPlayerName playerName)
-	{
-		if(!checkExistance(playerName))
-		{
-			m_nameList.add(playerName);
-			Player player = playerName.getPlayer();
-			if(player != null)
-			{
+
+	/**
+	 * Add player name to database
+	 * 
+	 * @param playerName
+	 *            player name to add
+	 * @return true if name exist in database
+	 */
+	public boolean addName(SPlayerName playerName) {
+		if (!checkExistance(playerName)) {
+			Player player = null;
+			SPlayerName oldName = getPlayerName(playerName.originalName);
+
+			if (oldName == null) {
+				m_nameList.add(playerName);
+				player = playerName.getPlayer();
+
+			} else {
+				player = playerName.getPlayer();
+				oldName.newName = playerName.newName;
+			}
+
+			if (player != null) {
 				player.setDisplayName(playerName.newName);
 			}
 		}
 		return false;
 	}
-	
-	public boolean deleteName(String newName)
-	{
+
+	public boolean deleteName(String newName) {
 		return false;
 	}
-	
+
 	/**
 	 * Check existence of player in database
-	 * @param playerName playerName to check
+	 * 
+	 * @param playerName
+	 *            playerName to check
 	 * @return true if original or new name exist in database
 	 */
-	public boolean checkExistance(SPlayerName playerName)
-	{
-		for(SPlayerName name : m_nameList)
-		{
-			if(name.originalPlayerName == playerName.originalPlayerName 
-			|| name.newName == name.newName)
-				return true;
-		}
+	public boolean checkExistance(SPlayerName playerName) {
+		for (SPlayerName name : m_nameList)
+			if (name.newName == name.newName) return true;
 		return false;
+	}
+
+	/**
+	 * return SPlayerName from database
+	 * 
+	 * @param originalName
+	 *            original name of the player
+	 * @return SPlayerName if player was found otherwise null
+	 */
+	public SPlayerName getPlayerName(String originalName) {
+		for (SPlayerName name : m_nameList)
+			if (name.originalName == originalName) return name;
+		return null;
 	}
 }

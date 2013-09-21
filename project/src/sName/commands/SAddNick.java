@@ -3,10 +3,13 @@ package sName.commands;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
+import sName.SName;
+import sName.data.SPlayerName;
+
 public class SAddNick extends SCommand
 {
 
-	public SAddNick(String name, int args_count) {
+	public SAddNick() {
 		super("s_changename", 2);
 	}
 
@@ -16,7 +19,8 @@ public class SAddNick extends SCommand
 		String newName = args[1];
 		if(plugin.getServer().getPlayer(playerName) != null)
 		{
-			
+			SPlayerName sPlayerName = new SPlayerName( playerName, newName );
+			plugin.m_nameManager.addName(sPlayerName);
 		}
 		
 	}

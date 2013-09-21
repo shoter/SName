@@ -6,12 +6,21 @@ import sName.SName;
 
 public class SPlayerName
 {
-	public String originalPlayerName;
+	public String originalName;
 	public String newName;
+	
+	public SPlayerName(String originalName, String newName)
+	{
+		this.originalName = originalName;
+		this.newName = newName;
+	}
+	
+	public SPlayerName()
+	{}
 	
 	@Override
 	public String toString() {
-		return originalPlayerName+" "+newName;
+		return originalName+" "+newName;
 	}
 	
 	public static SPlayerName ValueOf(String str)
@@ -20,7 +29,7 @@ public class SPlayerName
 		String[] names = str.split(str);
 		if(names.length == 2)
 		{
-			retValue.originalPlayerName = names[0];
+			retValue.originalName = names[0];
 			retValue.newName = names[1];
 			
 			return retValue;
@@ -30,7 +39,7 @@ public class SPlayerName
 	
 	public Player getPlayer()
 	{
-		Player player = SName.get().getServer().getPlayer(originalPlayerName);
+		Player player = SName.get().getServer().getPlayer(originalName);
 		return player;
 	}
 }
