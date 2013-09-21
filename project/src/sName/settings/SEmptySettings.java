@@ -1,4 +1,4 @@
-package sName;
+package sName.settings;
 
 
 public class SEmptySettings extends SSettings

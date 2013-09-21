@@ -1,4 +1,7 @@
-package sName;
+package sName.settings;
+
+import sName.SName;
+import sName.SNameManager;
 
 public abstract class SSettings
 {
