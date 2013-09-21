@@ -1,14 +1,15 @@
-package sName;
+package sName.commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+
+import sName.SName;
 
 public abstract class SCommand
 {
 	protected String name;
 	protected int args_count;
-	protected SName plugin;
-	
+	protected static SName plugin;
 	/**
 	 * 
 	 * @param name name that will be used to invoke this command
@@ -18,7 +19,8 @@ public abstract class SCommand
 	{
 		this.name = name;
 		this.args_count = args_count;
-		this.plugin = SName.get();
+		if(SCommand.plugin == null)
+			SCommand.plugin = SName.get();
 	}
 	
 	/**
