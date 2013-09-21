@@ -1,13 +1,17 @@
 package sName.data;
 
+import org.bukkit.entity.Player;
+
+import sName.SName;
+
 public class SPlayerName
 {
 	public String originalPlayerName;
-	public String SPlayerName;
+	public String newName;
 	
 	@Override
 	public String toString() {
-		return originalPlayerName+" "+SPlayerName;
+		return originalPlayerName+" "+newName;
 	}
 	
 	public static SPlayerName ValueOf(String str)
@@ -17,10 +21,16 @@ public class SPlayerName
 		if(names.length == 2)
 		{
 			retValue.originalPlayerName = names[0];
-			retValue.SPlayerName = names[1];
+			retValue.newName = names[1];
 			
 			return retValue;
 		}
 		return null;
+	}
+	
+	public Player getPlayer()
+	{
+		Player player = SName.get().getServer().getPlayer(originalPlayerName);
+		return player;
 	}
 }
