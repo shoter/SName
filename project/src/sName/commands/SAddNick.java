@@ -3,7 +3,6 @@ package sName.commands;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-import sName.SName;
 import sName.data.SPlayerName;
 
 public class SAddNick extends SCommand
