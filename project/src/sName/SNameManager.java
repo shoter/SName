@@ -1,15 +1,16 @@
 package sName;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.logging.Level;
 
 import org.bukkit.entity.Player;
 
-import sName.data.SPlayerName;
 import sName.settings.SSettings;
 
 public class SNameManager
 {
-	ArrayList<SPlayerName> m_nameList = new ArrayList<SPlayerName>();
+	
+	HashMap<String, String> m_nameList = new HashMap<String,String>();
 	SSettings m_settings;
 
 	public SNameManager(SSettings settings) {
@@ -41,23 +42,26 @@ public class SNameManager
 	 *            player name to add
 	 * @return true if name exist in database
 	 */
-	public boolean addName(SPlayerName playerName) {
-		if (!checkExistance(playerName)) {
+	public boolean addName(String playerName, String newName) {
+		if (!checkExistance(newName)) {
+			SName.get().getLogger().log(Level.INFO,"Playera nie ma w nameManagaerze");
 			Player player = null;
-			SPlayerName oldName = getPlayerName(playerName.originalName);
+			player = SName.get().getServer().getPlayer(playerName);
+			
+			String oldName = m_nameList.get(playerName);
 
 			if (oldName == null) {
-				m_nameList.add(playerName);
-				player = playerName.getPlayer();
+				m_nameList.put(playerName, newName);
 
 			} else {
-				player = playerName.getPlayer();
-				oldName.newName = playerName.newName;
+				oldName = newName;
 			}
-
 			if (player != null) {
-				player.setDisplayName(playerName.newName);
+				SName.get().getLogger().log(Level.INFO,"Zmieniamy nazwe " + player.getName() + " na " + newName);
+				
+				setPlayerName(player, newName);
 			}
+			return true;
 		}
 		return false;
 	}
@@ -73,22 +77,15 @@ public class SNameManager
 	 *            playerName to check
 	 * @return true if original or new name exist in database
 	 */
-	public boolean checkExistance(SPlayerName playerName) {
-		for (SPlayerName name : m_nameList)
-			if (name.newName == name.newName) return true;
+	public boolean checkExistance(String playerName) {
+		for (String name : m_nameList.values())
+			if ( playerName.equals(name) ) return true;
 		return false;
 	}
-
-	/**
-	 * return SPlayerName from database
-	 * 
-	 * @param originalName
-	 *            original name of the player
-	 * @return SPlayerName if player was found otherwise null
-	 */
-	public SPlayerName getPlayerName(String originalName) {
-		for (SPlayerName name : m_nameList)
-			if (name.originalName == originalName) return name;
-		return null;
-	}
+	
+	public void setPlayerName(Player player, String newname) {
+		SName.get().getLogger().log(Level.INFO,"Zmieniamy nazwe " + player.getName() + " na " + newname);
+        player.setDisplayName(newname);
+        player.setPlayerListName(newname);
+    }
 }
