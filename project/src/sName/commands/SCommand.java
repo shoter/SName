@@ -8,8 +8,9 @@ import sName.SName;
 public abstract class SCommand
 {
 	protected String name;
-	protected int args_count;
-	protected static SName plugin;
+	protected int min_args;
+	protected int max_args;
+	protected static SName plugin = null;
 	/**
 	 * 
 	 * @param name name that will be used to invoke this command
@@ -18,7 +19,8 @@ public abstract class SCommand
 	public SCommand(String name, int args_count)
 	{
 		this.name = name;
-		this.args_count = args_count;
+		this.min_args = args_count;
+		this.max_args = args_count;
 		if(SCommand.plugin == null)
 			SCommand.plugin = SName.get();
 	}
@@ -54,7 +56,7 @@ public abstract class SCommand
 	 */
 	protected boolean matches(Command command)
 	{
-		return name == command.getName().toString();
+		return name.equalsIgnoreCase(command.getName().toString());
 	}
 	
 	protected boolean isSenderGood(CommandSender sender)
@@ -64,7 +66,7 @@ public abstract class SCommand
 	
 	protected boolean isArgsGood(String[] args)
 	{
-		return args.length == args_count;
+		return args.length >= min_args && args.length <= max_args;
 	}
 	
 	public abstract void execute(Command command, CommandSender sender, String[] args);

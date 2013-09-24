@@ -1,3 +1,10 @@
 name: ShoterName
 main: sName.SName
-version: 0.0
+version: 0.1
+
+commands:
+   s_changename:
+      description: TBD
+      usage: /<command> [player] [new_name]
+      permission: ShoterName.s_changename
+      permission-message: You don't have <permission>

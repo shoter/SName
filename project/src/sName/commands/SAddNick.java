@@ -1,9 +1,9 @@
 package sName.commands;
 
+import java.util.logging.Level;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-
-import sName.data.SPlayerName;
 
 public class SAddNick extends SCommand
 {
@@ -16,12 +16,8 @@ public class SAddNick extends SCommand
 	public void execute(Command command, CommandSender sender, String[] args) {
 		String playerName = args[0];
 		String newName = args[1];
-		if(plugin.getServer().getPlayer(playerName) != null)
-		{
-			SPlayerName sPlayerName = new SPlayerName( playerName, newName );
-			plugin.m_nameManager.addName(sPlayerName);
+		plugin.getLogger().log(Level.INFO,"Trying to add nick : " + playerName + " - " + newName);
+		plugin.m_nameManager.addName(playerName, newName);
 		}
 		
 	}
-
-}
