@@ -14,6 +14,7 @@ import com.sun.istack.internal.logging.Logger;
 import sName.commands.SAddNick;
 import sName.commands.SCommand;
 import sName.events.ShoterPlayerListener;
+import sName.settings.SConfigSettings;
 import sName.settings.SEmptySettings;
 
 public final class SName extends JavaPlugin {
@@ -25,13 +26,14 @@ public final class SName extends JavaPlugin {
     public void onEnable(){
     	plugin_instance = this;
     	m_commandsList.add(new SAddNick());
-    	m_nameManager = new SNameManager(new SEmptySettings());
+    	m_nameManager = new SNameManager(new SConfigSettings());
     	getServer().getPluginManager().registerEvents( new ShoterPlayerListener(m_nameManager), this);
+    	load();
     }
  
     @Override
     public void onDisable() {
-        
+        save();
     }
     
     public static SName get()
@@ -41,12 +43,12 @@ public final class SName extends JavaPlugin {
     
     public void load()
     {
-    	//TODO
+    	m_nameManager.load();
     }
     
     public void save()
     {
-    	//TODO
+    	m_nameManager.save();
     }
     
     @Override

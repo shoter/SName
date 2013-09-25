@@ -30,11 +30,9 @@ public class ShoterPlayerListener  implements Listener
 		Iterator it = manager.getList().entrySet().iterator();
 		String command = event.getMessage();
 		while (it.hasNext()) {
-			Map.Entry<String,String> pairs = (Map.Entry<String,String>)it.next(); 
-			SName.get().getLogger().log(Level.INFO, "Podmieniam " + pairs.getValue() + " na " + pairs.getKey());
+			Map.Entry pairs = (Map.Entry)it.next(); 
 	        command = command.replaceAll("\\s" + pairs.getValue() + "\\s{0,1}", " " + pairs.getKey()  + " ");
 	    }
-		SName.get().getLogger().log(Level.INFO, "Komenda = " + command);
 		event.setMessage(command);
 	}
 	

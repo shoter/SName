@@ -47,6 +47,11 @@ public class SNameManager
 	 * @return true if name exist in database
 	 */
 	public boolean addName(String playerName, String newName) {
+		
+		if(newName.length() > 0 && 
+				newName.getBytes()[0] >= '0' && newName.getBytes()[0] <= '9')
+			return false;
+		
 		if(!m_nameList.containsValue(newName))
 		{
 			m_nameList.put(playerName, newName);
@@ -76,6 +81,11 @@ public class SNameManager
 	public HashMap<String, String> getList()
 	{
 		return m_nameList;
+	}
+	
+	public void setList(HashMap<String, String> newList)
+	{
+		m_nameList = newList;
 	}
 	
 	/**
