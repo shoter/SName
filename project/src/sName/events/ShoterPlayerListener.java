@@ -5,11 +5,13 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
 
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.kitteh.tag.PlayerReceiveNameTagEvent;
 
 import sName.SName;
@@ -40,7 +42,9 @@ public class ShoterPlayerListener  implements Listener
 	public void onChatCommand(AsyncPlayerChatEvent  event)
 	{
 		String playerAlias = manager.getPlayerName(event.getPlayer());
-		event.setFormat("<"+playerAlias+"> %2$s");
+		String format = event.getFormat();
+		format = format.replace("%1$s", playerAlias);
+		event.setFormat(format);
 		SName.get().getLogger().log(Level.INFO, event.getPlayer().getName() + "-  wiad : " + event.getMessage() + " format : " + event.getFormat());
 	}
 	
@@ -51,6 +55,14 @@ public class ShoterPlayerListener  implements Listener
 		SName.get().getLogger().log(Level.INFO, event.getNamedPlayer() + "Zmieniamy na  " + playerAlias);
 		event.setTag(playerAlias);
 		}
+	}
+	
+	@EventHandler
+	public void onPlayerJoin( PlayerJoinEvent event )
+	{
+		String playerAlias = manager.getPlayerName(event.getPlayer());	
+		if(playerAlias != event.getPlayer().getName())
+			manager.setPlayerName(event.getPlayer(), playerAlias);
 	}
 	
 	
